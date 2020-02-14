@@ -42,31 +42,42 @@ class nonrestore:
             else:
                 carry = 0
     def calc(self):
-        for i in range(len(self.a)):
+        print("Intermediate States:")
+        for i in range(len(self.a),0,-1):
             self.leftshift()
-            self.display()
+            self.display1(i)
             if self.a[0] == 0:
                 self.sub()
                 if self.a[0] == 0:
                     self.q[-1] = 1
                 else:
                     self.q[-1] = 0
-                self.display()
+                self.display1(i)
             else:
                 self.add()
                 if self.a[0] == 0:
                     self.q[-1] = 1
                 else:
                     self.q[-1] = 0
-                self.display()
+                self.display1(i)
         if self.a[0] == 1:
             self.add()    
     def display(self):
-        print(f"A={self.a} Q={self.q}")
+        rem = 0
+        quo = 0
+        for i in range(-1,-len(self.a)-1,-1):
+            rem += self.a[i]*(2**(abs(i)-1))
+        for i in range(-1,-len(self.q)-1,-1):
+            quo += self.q[i]*(2**(abs(i)-1)) 
+        print(f"Remainder = {rem} Quotient = {quo}")
+    def display1(self,count):
+        print(f"SC = {count} A = {self.a} Q = {self.q}")
 
 a = [0,0,0,0]
 q = [1,0,1,0]
 m = [0,0,1,1]
+print(f"A = {a}\nQ = {q}\nM = {m}")
 d = nonrestore(a,q,m)
 d.calc()
+print(f"Final Result:")
 d.display()
